@@ -143,5 +143,5 @@ B.Tech — AI & Data Science
 IIIT Raichur  
 
 Roll No: AD23B1021  
-Course: Image Processing / Computer Vision  
+Course: Deep Learning for Medical Imaging (CS328)
 Project: Brain MRI Tumor Segmentation
