@@ -1,148 +1,180 @@
-# CS328-Deep-Learning-for-Medical-Imaging-Harsh-Triapathi-AD23B1021
-# Brain MRI Tumor Segmentation — Otsu vs Sauvola Thresholding
-
-## 📌 Project Overview
-This project compares **global thresholding (Otsu)** and **adaptive thresholding (Sauvola)** methods for tumor segmentation in brain MRI images. The goal is to analyze how different thresholding strategies affect segmentation accuracy.
-
-The segmentation results are evaluated using **Dice Score** and **Jaccard Index**, which measure similarity between predicted tumor regions and ground truth masks.
+# Medical Image Segmentation Projects  
+## Classical Image Processing Techniques in Biomedical Analysis
 
 ---
 
-## 🎯 Objectives
-- Segment tumor regions in MRI slices
-- Compare global vs adaptive thresholding
-- Evaluate segmentation performance using quantitative metrics
-- Understand behavior of thresholding under varying image intensity
+# 📌 Overview
+
+This repository contains three medical image segmentation projects implemented using classical image processing techniques.
+
+The objective is to explore adaptive thresholding and watershed segmentation for solving real-world biomedical problems involving:
+
+- Brain tumor segmentation
+- Retinal vessel extraction
+- Cell nuclei separation
+
+All experiments are evaluated using quantitative metrics and visual comparisons.
 
 ---
 
-## 📂 Dataset
-**Source:** Kaggle — Brain MRI Tumor Segmentation Dataset  
+# 🧠 Project 1: Brain MRI Tumor Segmentation  
+## Otsu vs Sauvola Thresholding
+
+### 🎯 Objective
+Segment tumor regions in brain MRI images and compare:
+
+- Global Thresholding (Otsu)
+- Adaptive Thresholding (Sauvola)
+
+### 📂 Dataset
+Brain MRI Tumor Segmentation Dataset  
+Kaggle Source  
 https://www.kaggle.com/datasets/nikhilroxtomar/brain-tumor-segmentation/data
 
-The dataset contains:
-- MRI brain images
-- Ground truth tumor masks
+### ⚙️ Methods
+- Otsu (Global threshold)
+- Sauvola (Local adaptive threshold)
 
-Each image has a corresponding binary mask marking tumor regions.
+### 📊 Evaluation Metrics
+- Dice Score  
+- Jaccard Index  
 
----
+### 🔎 Observations
+- Otsu works well for high contrast tumors.
+- Sauvola handles uneven intensity variations better.
+- Adaptive thresholding produces smoother tumor boundaries.
 
-## ⚙️ Methods Used
-
-### 1. Otsu Thresholding
-- Global thresholding method
-- Computes a single optimal threshold for the entire image
-- Fast and simple
-- Sensitive to uneven lighting and intensity variation
-
-### 2. Sauvola Thresholding
-- Adaptive/local thresholding
-- Threshold varies across image regions
-- Handles non-uniform illumination better
-- Produces smoother segmentation boundaries
+### ✅ Conclusion
+Sauvola outperforms Otsu in heterogeneous MRI images due to its local adaptation capability.
 
 ---
 
-## 📊 Evaluation Metrics
+# 👁 Project 2: Retinal Vessel Extraction  
+## Niblack vs Sauvola Thresholding
 
-### Dice Score
-Measures overlap between predicted and ground truth regions.
+### 🎯 Objective
+Extract thin retinal vessels from fundus images using local thresholding.
 
-\[
-Dice = \frac{2 |A ∩ B|}{|A| + |B|}
-\]
-
-Range: 0 (no overlap) → 1 (perfect match)
-
----
-
-### Jaccard Index (IoU)
-Measures intersection over union.
-
-\[
-Jaccard = \frac{|A ∩ B|}{|A ∪ B|}
-\]
-
-Range: 0 → 1
-
----
-
-## 🛠 Installation
-
-Install required libraries:
-
-```bash
-pip install opencv-python scikit-image numpy matplotlib
+### 📂 Dataset
+DRIVE Retinal Vessel Dataset  
+https://www.kaggle.com/datasets/andrewmvd/drive-digital-retinal-images-for-vessel-extraction
+Structure:
+```
+training/
+    images/
+    1st_manual/   (Ground Truth)
+    mask/         (FOV Mask)
 ```
 
+### ⚙️ Methods
+- Niblack Thresholding
+- Sauvola Thresholding
+
+### 📊 Evaluation Metric
+Sensitivity (Recall)
+
+\[
+Sensitivity = \frac{TP}{TP + FN}
+\]
+
+### 🔎 Observations
+- Thin vessels require adaptive thresholding.
+- Niblack produces more noise.
+- Sauvola preserves fine vessel structures better.
+
+### ✅ Conclusion
+Sauvola achieves higher sensitivity and better thin vessel preservation.
+
 ---
 
-## ▶️ How to Run
+# 🔬 Project 3: Cell Nuclei Separation  
+## Watershed Segmentation
 
-1. Download dataset from Kaggle
-2. Extract images and masks into folders
-3. Update folder paths in the script:
+### 🎯 Objective
+Separate touching nuclei using:
 
-```python
-image_dir = "path_to_images"
-mask_dir = "path_to_masks"
+- Watershed without markers
+- Marker-controlled Watershed
+
+### 📂 Dataset
+MoNuSeg (Multi-Organ Nuclei Segmentation)  
+Source: Grand Challenge Platform  
+https://monuseg.grand-challenge.org/Data/
+
+Structure:
+```
+MoNuSeg/
+    Tissue Images/
+    Annotations/ (XML polygons)
 ```
 
-4. Run the Python script
+### ⚙️ Methods
+1. Basic Watershed (no marker control)
+2. Marker-controlled Watershed with:
+   - Morphological opening
+   - Distance transform
+   - Connected components
 
-The program will:
-- Apply Otsu segmentation
-- Apply Sauvola segmentation
-- Compute Dice and Jaccard scores
-- Print average performance
+### 📊 Evaluation Metric
+Dice Score
 
----
+### 🔎 Observations
+- Without markers → Over-segmentation.
+- Marker-controlled watershed → Clean separation.
+- Morphological preprocessing improves performance.
 
-## 📈 Results
-
-The output shows average Dice and Jaccard scores for both methods.
-
-Expected trend:
-- Sauvola performs better in uneven MRI intensity
-- Otsu works well for high-contrast tumors
-- Adaptive thresholding generally improves accuracy
-
----
-
-## 🔍 Observations
-
-- Global thresholding struggles with brightness variation
-- Adaptive thresholding adapts to local contrast
-- Sauvola produces cleaner tumor boundaries
-- Otsu may include background noise in complex images
+### ✅ Conclusion
+Marker-controlled watershed significantly reduces over-segmentation and improves segmentation accuracy.
 
 ---
 
-## ✅ Conclusion
+# 🛠 Technologies Used
 
-Adaptive Sauvola thresholding provides more reliable tumor segmentation in heterogeneous MRI images. While Otsu is computationally simpler, Sauvola achieves higher overlap accuracy due to its local threshold adjustment.
-
-This demonstrates the importance of adaptive techniques in medical image segmentation.
-
----
-
-## 📎 Future Improvements
-
-- Morphological post-processing
-- Noise removal
-- Deep learning segmentation models
-- Multi-threshold hybrid methods
+- Python
+- OpenCV
+- NumPy
+- Matplotlib
+- Scikit-image
+- XML parsing (ElementTree)
 
 ---
 
-## 👤 Author
+# 📈 Key Learnings
 
-**Harsh Tripathi**  
+- Global thresholding struggles with intensity variation.
+- Local adaptive thresholding improves segmentation of fine structures.
+- Watershed segmentation requires marker control for stable results.
+- Morphological operations enhance classical segmentation pipelines.
+- Quantitative metrics are essential for meaningful evaluation.
+
+---
+
+# 🧪 Evaluation Metrics Used
+
+- Dice Score
+- Jaccard Index
+- Sensitivity (Recall)
+
+---
+
+# 📌 Overall Conclusion
+
+Classical image processing techniques remain powerful for medical image segmentation when carefully applied.
+
+- Adaptive thresholding is superior for fine and low-contrast structures.
+- Marker-controlled watershed is essential for separating touching objects.
+- Proper preprocessing and evaluation are critical for robust performance.
+
+---
+
+# 👤 Author
+
+Harsh Tripathi  
 B.Tech — AI & Data Science  
 IIIT Raichur  
-
 Roll No: AD23B1021  
-Course: Deep Learning for Medical Imaging (CS328)
 
-Project: Brain MRI Tumor Segmentation
+Course: Medical Image Processing  
+Submission Date: __________
+
+---
